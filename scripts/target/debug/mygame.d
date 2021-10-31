@@ -1,1 +1,1 @@
-C:\Users\Novacane\Documents\Coding\TheGame\src\target\debug\mygame.dll: C:\Users\Novacane\Documents\Coding\TheGame\src\src\lib.rs
+C:\Users\Novacane\Documents\Coding\TheGame\scripts\target\debug\mygame.dll: C:\Users\Novacane\Documents\Coding\TheGame\scripts\src\lib.rs C:\Users\Novacane\Documents\Coding\TheGame\scripts\src\player.rs
