@@ -7,6 +7,9 @@
 
 [node name="World" type="Node2D"]
 
+[node name="Tree" parent="." instance=ExtResource( 4 )]
+position = Vector2( 224.587, 122.805 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 43.3452, 131.809 )
 script = ExtResource( 2 )
@@ -20,6 +23,3 @@ polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.
 [node name="HealthBarUI" parent="." instance=ExtResource( 3 )]
 margin_left = 110.0
 margin_top = 4.0
-
-[node name="Tree" parent="." instance=ExtResource( 4 )]
-position = Vector2( 224.587, 122.805 )
