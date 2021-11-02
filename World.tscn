@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
+[ext_resource path="res://scenes/UI/HealthBarUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Environment/Tree.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
 
@@ -12,4 +14,12 @@ script = ExtResource( 2 )
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 151.22, 89.8991, 16.1631, 170.51, 15.8096, -0.963486 )
+position = Vector2( 0.629974, 0 )
+polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 248.021, 145.41, 100.295, 145.725, 14.6205, 169.664, 15.8096, -0.963486 )
+
+[node name="HealthBarUI" parent="." instance=ExtResource( 3 )]
+margin_left = 110.0
+margin_top = 4.0
+
+[node name="Tree" parent="." instance=ExtResource( 4 )]
+position = Vector2( 224.587, 122.805 )
