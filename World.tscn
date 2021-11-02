@@ -14,12 +14,22 @@ position = Vector2( 224.587, 122.805 )
 position = Vector2( 43.3452, 131.809 )
 script = ExtResource( 2 )
 
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+smoothing_enabled = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( 0.629974, 0 )
 polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 248.021, 145.41, 100.295, 145.725, 14.6205, 169.664, 15.8096, -0.963486 )
 
-[node name="HealthBarUI" parent="." instance=ExtResource( 3 )]
+[node name="Tree" parent="." instance=ExtResource( 4 )]
+position = Vector2( 224.587, 122.805 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBarUI" parent="CanvasLayer" instance=ExtResource( 3 )]
 margin_left = 110.0
 margin_top = 4.0
+margin_right = 110.0
