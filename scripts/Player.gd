@@ -7,8 +7,15 @@ const GRAVITY: float = 600.0;
 const JUMP_POWER: float = 200.0;
 
 var velocity: Vector2 = Vector2.ZERO;
-onready var sprite: Sprite = $Sprite;
 
+onready var animationPlayer = $AnimationPlayer;
+onready var animationTree = $AnimationTree;
+# playback determines which state of animation the player is in (i.e. Idle, Run, etc..)
+onready var animationState = animationTree.get("parameters/playback");
+
+func _ready():
+	animationTree.active = true;
+	
 func _process(delta):
 	var target_movement: Vector2 = Vector2.ZERO;
 	target_movement.x = (
@@ -22,9 +29,14 @@ func _process(delta):
 		velocity.y = target_movement.y * JUMP_POWER;
 
 	if target_movement != Vector2.ZERO:
-		sprite.flip_h = target_movement.x < 0.0;
+
+		if target_movement.x != 0.0:
+			animationTree.set("parameters/Idle/blend_position", target_movement);
+			animationTree.set("parameters/Run/blend_position", target_movement);
+			animationState.travel("Run");
 		velocity = velocity.move_toward(Vector2(target_movement.x * MAX_SPEED, velocity.y), ACCELERATION * delta);
 	else:
+		animationState.travel("Idle");
 		velocity = velocity.move_toward(Vector2(0.0, velocity.y), FRICTION * delta);
 
 	# Simulate real gravity; constant force being applied
