@@ -8,18 +8,22 @@ extends Node
 # The state machine node will set it.
 var state_machine = null
 
+
 # Virtual function. Receives events from the `_unhandled_input()` callback.
-func handle_input (_event: InputEvent) -> void:
+func handle_input(_event: InputEvent) -> void:
 	pass
-	
+
+
 # Virtual function. Corresponds to the `_process()` callback.
 func update(_delta: float) -> void:
 	pass
 
+
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func physics_update(_delta: float) -> void:
 	pass
-	
+
+
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
 func enter(_msg := {}) -> void:
@@ -31,6 +35,6 @@ func enter(_msg := {}) -> void:
 func exit() -> void:
 	pass
 
-func _to_string() -> String:
-	return self.name;
 
+func _to_string() -> String:
+	return self.name

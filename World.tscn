@@ -32,7 +32,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 320, 180 )
 
 [node name="Bat" parent="Sprite" instance=ExtResource( 7 )]
-position = Vector2( -16, 30 )
+position = Vector2( -111.434, -11.6222 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 43.3452, 131.809 )
