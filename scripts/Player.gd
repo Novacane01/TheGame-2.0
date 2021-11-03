@@ -25,7 +25,8 @@ onready var RUN_STATE = $StateMachine/Run
 func _ready() -> void:
 	animationTree.active = true
 	state_machine.add_any_transition(AIR_STATE, funcref(self, "isAirbourne"))
-	state_machine.add_any_transition(RUN_STATE, funcref(self, "isRunning"))
+	state_machine.add_transition(AIR_STATE, RUN_STATE, funcref(self, "isRunning"))
+	state_machine.add_transition(IDLE_STATE, RUN_STATE, funcref(self, "isRunning"))
 	state_machine.add_any_transition(IDLE_STATE, funcref(self, "isIdle"))
 
 
@@ -34,6 +35,7 @@ func get_input_direction() -> Vector2:
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("jump")
 	)
+
 
 func isAirbourne() -> bool:
 	return !is_on_floor()
@@ -44,4 +46,4 @@ func isRunning() -> bool:
 
 
 func isIdle() -> bool:
-	return !isAirbourne() and !isRunning()
+	return !isAirbourne() && !isRunning()

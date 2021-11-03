@@ -32,7 +32,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 320, 180 )
 
 [node name="Bat" parent="Sprite" instance=ExtResource( 7 )]
-position = Vector2( -16, 30 )
+position = Vector2( -111.434, -11.6222 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 43.3452, 131.809 )
@@ -46,7 +46,7 @@ smoothing_enabled = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( 0.629974, 0 )
-polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 248.021, 145.41, 100.295, 145.725, 14.6205, 169.664, 15.8096, -0.963486 )
+polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 119.37, 144, 14.6205, 169.664, 15.8096, -0.963486 )
 
 [node name="Tree" parent="." instance=ExtResource( 4 )]
 position = Vector2( 224.587, 122.805 )

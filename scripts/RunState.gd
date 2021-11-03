@@ -21,7 +21,9 @@ func update(delta: float):
 
 
 func physics_update(_delta):
-	player.velocity = player.move_and_slide(player.velocity, Vector2.UP, true)
+	player.velocity = player.move_and_slide_with_snap(
+		player.velocity, Vector2.DOWN, Vector2.UP, true
+	)
 
 
 func handle_input(_event: InputEvent) -> void:
