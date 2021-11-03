@@ -1,46 +1,59 @@
+class_name Player
 extends KinematicBody2D
 
-const ACCELERATION: float = 800.0;
-const MAX_SPEED: float = 100.0;
-const FRICTION: float = 800.0;
-const GRAVITY: float = 600.0;
-const JUMP_POWER: float = 200.0;
+export var ACCELERATION: float = 800.0
+export var MAX_SPEED: float = 100.0
+export var FRICTION: float = 800.0
+export var GRAVITY: float = 600.0
+export var JUMP_POWER: float = 150.0
 
-var velocity: Vector2 = Vector2.ZERO;
+var velocity: Vector2 = Vector2.ZERO
 
-onready var animationPlayer = $AnimationPlayer;
-onready var animationTree = $AnimationTree;
+onready var animationPlayer = $AnimationPlayer
+onready var animationTree = $AnimationTree
 # playback determines which state of animation the player is in (i.e. Idle, Run, etc..)
-onready var animationState = animationTree.get("parameters/playback");
+onready var animationState = animationTree.get("parameters/playback")
 
-func _ready():
-	animationTree.active = true;
-	
-func _process(delta):
-	var target_movement: Vector2 = Vector2.ZERO;
-	target_movement.x = (
-		Input.get_action_strength("move_right")
-		- Input.get_action_strength("move_left")
-	);
+onready var sprite: Sprite = $Sprite
+onready var state_machine = $StateMachine
 
-	# Only allow player to jump when touching the ground
-	if is_on_floor():
-		target_movement.y = -Input.get_action_strength("jump");
-		velocity.y = target_movement.y * JUMP_POWER;
+onready var AIR_STATE = $StateMachine/Air
+onready var IDLE_STATE = $StateMachine/Idle
+onready var RUN_STATE = $StateMachine/Run
 
-	if target_movement != Vector2.ZERO:
 
-		if target_movement.x != 0.0:
-			animationTree.set("parameters/Idle/blend_position", target_movement);
-			animationTree.set("parameters/Run/blend_position", target_movement);
-			animationState.travel("Run");
-		velocity = velocity.move_toward(Vector2(target_movement.x * MAX_SPEED, velocity.y), ACCELERATION * delta);
-	else:
-		animationState.travel("Idle");
-		velocity = velocity.move_toward(Vector2(0.0, velocity.y), FRICTION * delta);
+func _ready() -> void:
+	animationTree.active = true
+	state_machine.add_any_transition(AIR_STATE, funcref(self, "isAirbourne"))
+	state_machine.add_any_transition(RUN_STATE, funcref(self, "isRunning"))
+	state_machine.add_any_transition(IDLE_STATE, funcref(self, "isIdle"))
 
-	# Simulate real gravity; constant force being applied
-	velocity.y += GRAVITY * delta;
 
-func _physics_process(_delta):
-	velocity = move_and_slide(velocity, Vector2(0.0, -1.0), true);
+func get_input_direction() -> Vector2:
+	return Vector2(
+		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+		Input.get_action_strength("jump")
+	)
+
+	# if target_movement != Vector2.ZERO:
+
+	# 	if target_movement.x != 0.0:
+	# 		animationTree.set("parameters/Idle/blend_position", target_movement);
+	# 		animationTree.set("parameters/Run/blend_position", target_movement);
+	# 		animationState.travel("Run");
+	# 	velocity = velocity.move_toward(Vector2(target_movement.x * MAX_SPEED, velocity.y), ACCELERATION * delta);
+	# else:
+	# 	animationState.travel("Idle");
+	# 	velocity = velocity.move_toward(Vector2(0.0, velocity.y), FRICTION * delta);
+
+
+func isAirbourne() -> bool:
+	return !is_on_floor()
+
+
+func isRunning() -> bool:
+	return get_input_direction().x != 0.0
+
+
+func isIdle() -> bool:
+	return !isAirbourne() and !isRunning()
