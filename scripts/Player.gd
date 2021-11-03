@@ -11,15 +11,16 @@ var velocity: Vector2 = Vector2.ZERO;
 
 onready var sprite: Sprite = $Sprite;
 onready var state_machine = $StateMachine;
-onready var AIR_STATE = $StateMachine/Air
-onready var IDLE_STATE = $StateMachine/Idle
-onready var RUN_STATE = $StateMachine/Run
+onready var AIR_STATE = $StateMachine/Air;
+onready var IDLE_STATE = $StateMachine/Idle;
+onready var RUN_STATE = $StateMachine/Run;
 	
 func _ready() -> void:
 	print("Player ready!");
 
 	state_machine.add_any_transition(AIR_STATE, funcref(self, "isAirbourne"));
-	state_machine.add_any_transition(RUN_STATE, funcref(self, "isRunning"));
+	state_machine.add_transition(AIR_STATE, RUN_STATE, funcref(self, "isRunning"));
+	state_machine.add_transition(IDLE_STATE, RUN_STATE, funcref(self, "isRunning"));
 	state_machine.add_any_transition(IDLE_STATE, funcref(self, "isIdle"));
 	
 func get_input_direction() -> Vector2:
@@ -36,6 +37,6 @@ func isRunning() -> bool:
 	return get_input_direction().x != 0.0;
 
 func isIdle() -> bool:
-	return !isAirbourne() and !isRunning();
+	return !isAirbourne() && !isRunning();
 	
 

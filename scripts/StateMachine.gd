@@ -10,7 +10,9 @@ export var initial_state := NodePath()
 onready var current_state: State = get_node(initial_state)
 
 var transitions: Dictionary = {};
+var current_transitions: Array;
 var any_transitions: Array;
+var empty_transitions: Array = [];
 onready var children: Array = get_children();
 
 func _ready() -> void:
@@ -24,9 +26,9 @@ func add_transition(from: Object, to: Object, predicate: FuncRef):
 	if (!transitions.has(from)):
 		var _transitions: Array = [];
 		_transitions.push_back(Transition.new(to, predicate, children));
-		transitions[from] = _transitions;
+		transitions[from.to_string()] = _transitions;
 	else:
-		transitions[from].push_back(Transition.new(to, predicate, children));
+		transitions[from.to_string()].push_back(Transition.new(to, predicate, children));
 		
 func add_any_transition(state: Object, predicate: FuncRef):
 	any_transitions.push_back(Transition.new(state, predicate, children));
@@ -52,11 +54,15 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	# Safety check, you could use an assert() here to report an error if the state name is incorrect.
 	# We don't use an assert here to help with code reuse. If you reuse a state in different state machines
 	# but you don't want them all, they won't be able to transition to states that aren't in the scene tree.
-	if not has_node(target_state_name):
+	if (target_state_name != current_state.to_string() || not has_node(target_state_name)):
 		return
-
-	current_state.exit()
+	if (current_state != null):
+		current_state.exit()
 	current_state = get_node(target_state_name)
+	if (target_state_name in transitions):
+		current_transitions = transitions[target_state_name];
+	else:
+		current_transitions = empty_transitions;
 	current_state.enter(msg)
 
 
@@ -74,7 +80,7 @@ func get_transition() -> Transition:
 	for transition in any_transitions:
 		if (transition.condition.call_func()):
 			return transition
-	for transition in transitions:
+	for transition in current_transitions:
 		if (transition.condition.call_func()):
 			return transition
 	return null;
