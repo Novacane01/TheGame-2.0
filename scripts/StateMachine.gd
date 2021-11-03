@@ -3,9 +3,6 @@
 class_name StateMachine
 extends Node
 
-# Emitted when transitioning to a new state.
-#signal transitioned(state_name)
-
 # Path to the initial active state. We export it to be able to pick the initial state in the inspector.
 export var initial_state := NodePath()
 
@@ -38,7 +35,6 @@ func add_any_transition(state: Object, predicate: FuncRef):
 func _unhandled_input(event: InputEvent) -> void:
 	current_state.handle_input(event)
 
-
 func _process(delta: float) -> void:
 	var transition = get_transition();
 	if (transition != null and current_state.to_string() != transition.to.to_string()): # Refactor later this is hideous
@@ -49,8 +45,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	current_state.physics_update(delta)
 
-func transition_from_any():
-	pass
 # This function calls the current state's exit() function, then changes the active state,
 # and calls its enter function.
 # It optionally takes a `msg` dictionary to pass to the next state's enter() function.
@@ -64,7 +58,7 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	current_state.exit()
 	current_state = get_node(target_state_name)
 	current_state.enter(msg)
-#	emit_signal("transitioned", state.name)
+
 
 class Transition:
 	var to: Object;

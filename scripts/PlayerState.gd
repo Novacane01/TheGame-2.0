@@ -1,15 +1,9 @@
 class_name PlayerState
 extends State
 
-var player = null;
+var player: Player = null;
 
 func _ready():
 	yield(owner, "ready");
-	player = owner
+	player = owner as Player
 	assert(player != null);
-	print("once")
-
-func _process(delta):
-#	print("im running in playerstate")
-	pass
-	

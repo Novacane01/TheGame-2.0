@@ -8,9 +8,9 @@ export var GRAVITY: float = 600.0;
 export var JUMP_POWER: float = 150.0;
 
 var velocity: Vector2 = Vector2.ZERO;
+
 onready var sprite: Sprite = $Sprite;
 onready var state_machine = $StateMachine;
-
 onready var AIR_STATE = $StateMachine/Air
 onready var IDLE_STATE = $StateMachine/Idle
 onready var RUN_STATE = $StateMachine/Run
