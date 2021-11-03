@@ -1,34 +1,41 @@
+class_name Player
 extends KinematicBody2D
 
-const ACCELERATION: float = 800.0;
-const MAX_SPEED: float = 100.0;
-const FRICTION: float = 800.0;
-const GRAVITY: float = 600.0;
-const JUMP_POWER: float = 200.0;
+export var ACCELERATION: float = 800.0;
+export var MAX_SPEED: float = 100.0;
+export var FRICTION: float = 800.0;
+export var GRAVITY: float = 600.0;
+export var JUMP_POWER: float = 150.0;
 
 var velocity: Vector2 = Vector2.ZERO;
 onready var sprite: Sprite = $Sprite;
+onready var state_machine = $StateMachine;
 
-func _process(delta):
-	var target_movement: Vector2 = Vector2.ZERO;
-	target_movement.x = (
+onready var AIR_STATE = $StateMachine/Air
+onready var IDLE_STATE = $StateMachine/Idle
+onready var RUN_STATE = $StateMachine/Run
+	
+func _ready() -> void:
+	print("Player ready!");
+
+	state_machine.add_any_transition(AIR_STATE, funcref(self, "isAirbourne"));
+	state_machine.add_any_transition(RUN_STATE, funcref(self, "isRunning"));
+	state_machine.add_any_transition(IDLE_STATE, funcref(self, "isIdle"));
+	
+func get_input_direction() -> Vector2:
+	return Vector2((
 		Input.get_action_strength("move_right")
 		- Input.get_action_strength("move_left")
-	);
+	),
+	Input.get_action_strength("jump"));
 
-	# Only allow player to jump when touching the ground
-	if is_on_floor():
-		target_movement.y = -Input.get_action_strength("jump");
-		velocity.y = target_movement.y * JUMP_POWER;
+func isAirbourne() -> bool:
+	return !is_on_floor();
+	
+func isRunning() -> bool:
+	return get_input_direction().x != 0.0;
 
-	if target_movement != Vector2.ZERO:
-		sprite.flip_h = target_movement.x < 0.0;
-		velocity = velocity.move_toward(Vector2(target_movement.x * MAX_SPEED, velocity.y), ACCELERATION * delta);
-	else:
-		velocity = velocity.move_toward(Vector2(0.0, velocity.y), FRICTION * delta);
+func isIdle() -> bool:
+	return !isAirbourne() and !isRunning();
+	
 
-	# Simulate real gravity; constant force being applied
-	velocity.y += GRAVITY * delta;
-
-func _physics_process(_delta):
-	velocity = move_and_slide(velocity, Vector2(0.0, -1.0), true);

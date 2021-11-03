@@ -1,11 +1,39 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://scenes/UI/HealthBarUI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Environment/Tree.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Sprite-0003.png" type="Texture" id=5]
+[ext_resource path="res://assets/World/GrassBackground.png" type="Texture" id=6]
+[ext_resource path="res://scenes/Enemy/Bat.tscn" type="PackedScene" id=7]
+
+[sub_resource type="TileSet" id=1]
+0/name = "GrassBackground.png 0"
+0/texture = ExtResource( 6 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
 
 [node name="World" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 160, 90 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 320, 180 )
+
+[node name="Bat" parent="Sprite" instance=ExtResource( 7 )]
+position = Vector2( -16, 30 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 43.3452, 131.809 )
@@ -13,6 +41,7 @@ script = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
+process_mode = 0
 smoothing_enabled = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -30,3 +59,10 @@ position = Vector2( 224.587, 122.805 )
 margin_left = 110.0
 margin_top = 4.0
 margin_right = 110.0
+
+[node name="TileMap" type="TileMap" parent="."]
+visible = false
+tile_set = SubResource( 1 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0 )
