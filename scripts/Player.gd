@@ -35,18 +35,6 @@ func get_input_direction() -> Vector2:
 		Input.get_action_strength("jump")
 	)
 
-	# if target_movement != Vector2.ZERO:
-
-	# 	if target_movement.x != 0.0:
-	# 		animationTree.set("parameters/Idle/blend_position", target_movement);
-	# 		animationTree.set("parameters/Run/blend_position", target_movement);
-	# 		animationState.travel("Run");
-	# 	velocity = velocity.move_toward(Vector2(target_movement.x * MAX_SPEED, velocity.y), ACCELERATION * delta);
-	# else:
-	# 	animationState.travel("Idle");
-	# 	velocity = velocity.move_toward(Vector2(0.0, velocity.y), FRICTION * delta);
-
-
 func isAirbourne() -> bool:
 	return !is_on_floor()
 
