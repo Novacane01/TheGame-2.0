@@ -25,12 +25,15 @@ func _ready() -> void:
 
 
 func add_transition(from: Object, to: Object, predicate: FuncRef):
-	if !transitions.has(from):
+	if !transitions.has(from.to_string()):
 		var _transitions: Array = []
 		_transitions.push_back(Transition.new(to, predicate, children))
 		transitions[from.to_string()] = _transitions
 	else:
 		transitions[from.to_string()].push_back(Transition.new(to, predicate, children))
+		
+	if from.to_string() == current_state.to_string():
+		current_transitions = transitions[from.to_string()]
 
 
 func add_any_transition(state: Object, predicate: FuncRef):
@@ -44,6 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	var transition = get_transition()
+
 	if transition != null and current_state.to_string() != transition.to.to_string():  # Refactor later this is hideous
 		transition_to(transition.to.to_string())
 	current_state.update(delta)
@@ -85,9 +89,12 @@ class Transition:
 
 func get_transition() -> Transition:
 	for transition in any_transitions:
+		#print("transition: ", transition.to.to_string())
 		if transition.condition.call_func():
 			return transition
+	#print("current transitions: ", current_transitions.size())
 	for transition in current_transitions:
 		if transition.condition.call_func():
+			#print("transitioning to: ", transition.to_string())
 			return transition
 	return null

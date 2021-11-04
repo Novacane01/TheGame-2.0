@@ -1,17 +1,13 @@
 class_name AirState
 extends PlayerState
 
-var previous_state: String = ""
-
 
 func enter(_msg: Dictionary = {}) -> void:
 	print("Switched to Air state")
 
 
-#	previous_state = _msg["previous"];
-
-
 func update(delta: float) -> void:
+	update_movement(delta)
 	player.velocity.y += player.GRAVITY * delta
 
 

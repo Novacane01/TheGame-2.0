@@ -24,7 +24,8 @@ onready var RUN_STATE = $StateMachine/Run
 
 func _ready() -> void:
 	animationTree.active = true
-	state_machine.add_any_transition(AIR_STATE, funcref(self, "isAirbourne"))
+	state_machine.add_transition(RUN_STATE, AIR_STATE, funcref(self, "isAirbourne"))
+	state_machine.add_transition(IDLE_STATE, AIR_STATE, funcref(self, "isAirbourne"))
 	state_machine.add_transition(AIR_STATE, RUN_STATE, funcref(self, "isRunning"))
 	state_machine.add_transition(IDLE_STATE, RUN_STATE, funcref(self, "isRunning"))
 	state_machine.add_any_transition(IDLE_STATE, funcref(self, "isIdle"))
@@ -42,7 +43,7 @@ func isAirbourne() -> bool:
 
 
 func isRunning() -> bool:
-	return get_input_direction().x != 0.0
+	return  get_input_direction().x != 0.0 && !isAirbourne()
 
 
 func isIdle() -> bool:

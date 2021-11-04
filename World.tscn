@@ -35,7 +35,7 @@ region_rect = Rect2( 0, 0, 320, 180 )
 position = Vector2( -111.434, -11.6222 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 43.3452, 131.809 )
+position = Vector2( 41.5614, 145.188 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
@@ -46,10 +46,10 @@ smoothing_enabled = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( 0.629974, 0 )
-polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 309.259, 169.803, 119.37, 144, 14.6205, 169.664, 15.8096, -0.963486 )
+polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.702, 319.865, 0.0971832, 309.259, 0.0971832, 306.523, 139.96, 100.791, 137.582, 14.6205, 169.664, 15.8096, -0.963486 )
 
 [node name="Tree" parent="." instance=ExtResource( 4 )]
-position = Vector2( 224.587, 122.805 )
+position = Vector2( 249.858, 114.778 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
