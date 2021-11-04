@@ -43,7 +43,7 @@ func isAirbourne() -> bool:
 
 
 func isRunning() -> bool:
-	return  get_input_direction().x != 0.0 && !isAirbourne()
+	return get_input_direction().x != 0.0 && !isAirbourne()
 
 
 func isIdle() -> bool:

@@ -12,7 +12,7 @@ func update(delta: float) -> void:
 
 
 func physics_update(_delta):
-	 player.velocity = player.move_and_slide_with_snap(
+	player.velocity = player.move_and_slide_with_snap(
 		player.velocity, Vector2.DOWN, Vector2.UP, true
 	)
 

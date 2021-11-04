@@ -23,6 +23,8 @@ func _ready() -> void:
 		child.state_machine = self
 	current_state.enter()
 
+	current_transitions = transitions[current_state.to_string()]
+
 
 func add_transition(from: Object, to: Object, predicate: FuncRef):
 	if !transitions.has(from.to_string()):
@@ -31,9 +33,6 @@ func add_transition(from: Object, to: Object, predicate: FuncRef):
 		transitions[from.to_string()] = _transitions
 	else:
 		transitions[from.to_string()].push_back(Transition.new(to, predicate, children))
-		
-	if from.to_string() == current_state.to_string():
-		current_transitions = transitions[from.to_string()]
 
 
 func add_any_transition(state: Object, predicate: FuncRef):
