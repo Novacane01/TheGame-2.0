@@ -1,1 +1,2 @@
-scripts/target/*
+.mono
+.vscode
