@@ -2,6 +2,10 @@ class_name IdleState
 extends OnGround
 
 
+func _init(player: Player).(player):
+	pass
+
+
 func enter(_msg: Dictionary = {}) -> void:
 	print("Switched to Idle state")
 	player.animationState.travel("Idle")

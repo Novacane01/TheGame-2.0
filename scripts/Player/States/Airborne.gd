@@ -2,6 +2,10 @@ class_name AirState
 extends PlayerState
 
 
+func _init(player: Player).(player):
+	pass
+
+
 func enter(_msg: Dictionary = {}) -> void:
 	print("Switched to Air state")
 

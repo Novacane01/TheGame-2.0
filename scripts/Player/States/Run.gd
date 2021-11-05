@@ -2,6 +2,10 @@ class_name RunState
 extends OnGround
 
 
+func _init(player: Player).(player):
+	pass
+
+
 func enter(_msg: Dictionary = {}) -> void:
 	print("Switched to running state")
 	var player_direction = player.get_input_direction()
