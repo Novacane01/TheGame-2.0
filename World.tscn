@@ -27,7 +27,6 @@
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 160, 90 )
-z_index = -5
 texture = ExtResource( 5 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 320, 180 )
@@ -51,6 +50,7 @@ polygon = PoolVector2Array( 0.25322, -0.963486, 0.606766, 180.056, 320.219, 179.
 
 [node name="Tree" parent="." instance=ExtResource( 4 )]
 position = Vector2( 249.858, 114.778 )
+z_index = 0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
