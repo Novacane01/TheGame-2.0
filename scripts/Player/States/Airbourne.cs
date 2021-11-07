@@ -17,7 +17,7 @@ public class Airbourne : PlayerState {
         var playerDir = player.inputDirection;
 
         // allows change of direction while in air, simulatied by a state similar to Run state
-        if (playerDir.x != 0.0f) {
+        if (playerDir.x != 0.0f && player.action == Player.Action.None) {
             player.animationTree.Set("parameters/StateMachine/Idle/blend_position", playerDir.x);
             player.animationTree.Set("parameters/Attack/blend_position", playerDir.x);
             player.animationTree.Set("parameters/StateMachine/Run/blend_position", playerDir.x);

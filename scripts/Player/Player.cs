@@ -24,7 +24,6 @@ public class Player : KinematicBody2D {
         Attacking
     }
 
-    public string previousAnimation = "";
     public Action action = Action.None;
 
     public Vector2 inputDirection = Vector2.Zero;
