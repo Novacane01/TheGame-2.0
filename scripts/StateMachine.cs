@@ -2,8 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-    // Generic state machine. Initializes states and delegates engine callbacks
-    // (_physics_process, _unhandled_input) to the active state.
+// Generic state machine. Initializes states and delegates engine callbacks
+// (_physics_process, _unhandled_input) to the active state.
 public class StateMachine {
     protected Player player;
     public StateMachine(Player player) {
@@ -11,16 +11,16 @@ public class StateMachine {
     }
 
     // The current active state. This is undefined until add_states is called
-    public IState currentState {get; private set;}
+    public IState currentState { get; private set; }
     private Dictionary<Type, List<Transition>> transitions = new Dictionary<Type, List<Transition>>();
     private List<Transition> currentTransitions = new List<Transition>();
     private List<Transition> anyTransitions = new List<Transition>();
     private List<Transition> emptyTransitions = new List<Transition>(0);
 
-    public void AddTransition(IState to, IState from, Func<bool> predicate){
+    public void AddTransition(IState to, IState from, Func<bool> predicate) {
         Transition transition = new Transition(to, predicate);
-        
-        if (!transitions.ContainsKey(from.GetType())){
+
+        if (!transitions.ContainsKey(from.GetType())) {
             List<Transition> _transitions = new List<Transition>();
             transitions[from.GetType()] = _transitions;
         }
@@ -28,7 +28,7 @@ public class StateMachine {
         transitions[from.GetType()].Add(transition);
     }
 
-    public void AddAnyTransition(IState state, Func<bool> predicate){
+    public void AddAnyTransition(IState state, Func<bool> predicate) {
         anyTransitions.Add(new Transition(state, predicate));
     }
 
@@ -39,12 +39,12 @@ public class StateMachine {
     }
 
 
-    public void Process(float delta){
+    public void Process(float delta) {
         var transition = GetTransition();
 
-        if (transition != null){
+        if (transition != null) {
             SetState(transition.to);
-        } 
+        }
         currentState?.Update(delta);
     }
 
@@ -58,14 +58,14 @@ public class StateMachine {
     // and calls its enter function.
     // It optionally takes a `msg` dictionary to pass to the next state's enter() function.
     public void SetState(IState targetState) {
-        if (targetState == currentState){
+        if (targetState == currentState) {
             return;
         }
 
         currentState?.Exit();
 
-    	currentState = targetState;
-        
+        currentState = targetState;
+
         currentTransitions = transitions.ContainsKey(targetState.GetType()) ? transitions[targetState.GetType()] : emptyTransitions;
 
         currentState?.Enter();
@@ -83,15 +83,15 @@ public class StateMachine {
     }
 
 
-    private Transition GetTransition(){
+    private Transition GetTransition() {
         foreach (Transition transition in anyTransitions) {
-            if (transition.condition()){
+            if (transition.condition()) {
                 return transition;
             }
         }
 
-       foreach (Transition transition in currentTransitions) {
-            if (transition.condition()){
+        foreach (Transition transition in currentTransitions) {
+            if (transition.condition()) {
                 return transition;
             }
         }

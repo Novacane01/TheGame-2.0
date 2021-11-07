@@ -1,3 +1,3 @@
-public abstract class PlayerState: IState {
+public abstract class PlayerState : IState {
     protected Player player = null;
 }

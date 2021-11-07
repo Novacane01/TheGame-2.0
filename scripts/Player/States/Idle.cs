@@ -1,5 +1,4 @@
 using Godot;
-using System;
 public class Idle : OnGround {
     public Idle(Player player) {
         this.player = player;
@@ -7,7 +6,7 @@ public class Idle : OnGround {
     public override void Enter() {
         GD.Print("Switched to Idle state");
         player.animationState.Travel("Idle");
-    }	
+    }
 
 
     public override void Update(float delta) {
@@ -20,7 +19,7 @@ public class Idle : OnGround {
         );
     }
 
-    public override void UnhandledInput(InputEvent _event){
+    public override void UnhandledInput(InputEvent _event) {
         base.UnhandledInput(_event);
     }
 }
