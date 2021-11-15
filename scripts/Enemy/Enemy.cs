@@ -17,7 +17,7 @@ namespace Enemy {
 		public Vector2 Velocity = Vector2.Zero;
 
 		protected StateMachine StateMachine;
-		protected Stats Stats;
+		protected Node Health;
 		public AnimatedSprite Sprite;
 		public WanderController WanderController;
 		public object Target = null;
@@ -26,8 +26,8 @@ namespace Enemy {
 		public override void _Ready() {
 			Sprite = GetNode<AnimatedSprite>("Sprite");
 			StateMachine = new StateMachine();
-			Stats = new Stats();
-			Stats.Connect("NoHealth", this, nameof(Destroy));
+			Health = GetNode("Health");
+			Health.Connect("NoHealth", this, nameof(Destroy));
 		}
 
 		public override void _Process(float delta) {

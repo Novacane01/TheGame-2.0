@@ -26,10 +26,5 @@ namespace Enemy {
 			StateMachine.AddAnyTransition(chase, hasTarget);
 			StateMachine.SetState(idle);
 		}
-
-		private void _on_HurtBox_area_entered(object area) {
-			GD.Print("owie");
-			Stats.Health -= 50.0f;
-		}
 	}
 }
