@@ -1,31 +1,20 @@
 using Godot;
 
 public class Tree : StaticBody2D {
-	private Stats stats;
-	private Sprite sprite;
-	private Timer flashTimer;
+	private FlashTimer flashTimer;
+	private Health health;
+
 	public override void _Ready() {
-		stats = GetNode<Stats>("Stats");
-		sprite = GetNode<Sprite>("Sprite");
-		flashTimer = GetNode<Timer>("FlashTimer");
+		flashTimer = GetNode<FlashTimer>("FlashTimer");
+		health = GetNode<Health>("Health");
+		health.Connect("NoHealth", this, "_onStatsNoHealth");
 	}
 
-	public void flash() {
-		(sprite.Material as ShaderMaterial).SetShaderParam("flash_modifier", 1);
-		flashTimer.Start();
+	public void _on_HurtBox_area_entered(Hitbox hitbox) {
+		flashTimer.flash();
 	}
 
-	public void _on_HurtBox_area_entered(Area2D _area) {
-		stats.Health -= 10.0f;
-		flash();
-
-		if (stats.Health <= 0.0) {
-			QueueFree();
-		}
-	}
-
-	private void flashEnded() {
-		(sprite.Material as ShaderMaterial).SetShaderParam("flash_modifier", 0);
-
+	private void _onStatsNoHealth() {
+		QueueFree();
 	}
 }
