@@ -5,11 +5,6 @@ using System.Collections.Generic;
 // Generic state machine. Initializes states and delegates engine callbacks
 // (_physics_process, _unhandled_input) to the active state.
 public class StateMachine {
-    protected Player player;
-    public StateMachine(Player player) {
-        this.player = player;
-    }
-
     // The current active state. This is undefined until add_states is called
     public IState currentState { get; private set; }
     private Dictionary<Type, List<Transition>> transitions = new Dictionary<Type, List<Transition>>();

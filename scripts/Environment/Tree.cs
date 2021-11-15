@@ -16,10 +16,10 @@ public class Tree : StaticBody2D {
 	}
 
 	public void _on_HurtBox_area_entered(Area2D _area) {
-		stats.health -= 10.0;
+		stats.Health -= 10.0f;
 		flash();
 
-		if (stats.health <= 0.0) {
+		if (stats.Health <= 0.0) {
 			QueueFree();
 		}
 	}

@@ -1,79 +1,86 @@
 using Godot;
 using System;
 
-public class Player : KinematicBody2D {
-    [Export]
-    public float ACCELERATION = 800.0f;
-    [Export]
-    public float MAX_SPEED = 100.0f;
-    [Export]
-    public float FRICTION = 800.0f;
-    [Export]
-    public float GRAVITY = 600.0f;
-    [Export]
-    public float JUMP_POWER = 150.0f;
-    [Export]
-    public Vector2 velocity;
+namespace Player {
+	public enum Action {
+		None,
+		Attacking
+	}
+	public class Player : KinematicBody2D {
+		[Export]
+		public float ACCELERATION = 800.0f;
+		[Export]
+		public float MAX_SPEED = 100.0f;
+		[Export]
+		public float FRICTION = 800.0f;
+		[Export]
+		public float GRAVITY = 600.0f;
+		[Export]
+		public float snapLength = 30.0f;
+		[Export]
+		public float JUMP_POWER = 150.0f;
+		[Export]
+		public float TERMINAL_VELOCITY = 100.0f;
+		[Export]
+		public Vector2 Velocity = Vector2.Zero;
 
-    public AnimationPlayer animationPlayer;
-    public AnimationTree animationTree;
-    public AnimationNodeStateMachinePlayback animationState;
+		public Vector2 snapVector = Vector2.Down;
 
-    public enum Action {
-        None,
-        Attacking
-    }
+		public AnimationPlayer AnimationPlayer;
+		public AnimationTree AnimationTree;
+		public AnimationNodeStateMachinePlayback AnimationState;
 
-    public Action action = Action.None;
+		public Action Action = Action.None;
 
-    public Vector2 inputDirection = Vector2.Zero;
+		public Vector2 InputDirection = Vector2.Zero;
 
-    private StateMachine stateMachine;
+		private StateMachine _stateMachine;
 
-    public override void _Ready() {
-        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        animationTree = GetNode<AnimationTree>("AnimationTree");
-        animationState = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/StateMachine/playback");
-        stateMachine = new StateMachine(this);
+		public override void _Ready() {
+			AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+			AnimationTree = GetNode<AnimationTree>("AnimationTree");
+			AnimationState = (AnimationNodeStateMachinePlayback)AnimationTree.Get("parameters/StateMachine/playback");
+			_stateMachine = new StateMachine();
 
-        var idle = new Idle(this);
-        var running = new Running(this);
-        var airbourne = new Airbourne(this);
+			var idle = new Idle(this);
+			var running = new Running(this);
+			var airbourne = new Airbourne(this);
 
-        Func<bool> isAirbourne = () => !IsOnFloor();
-        Func<bool> isRunning = () => inputDirection.x != 0.0f;
-        Func<bool> isIdle = () => inputDirection == Vector2.Zero;
-        stateMachine.AddAnyTransition(airbourne, isAirbourne);
-        stateMachine.AddAnyTransition(running, isRunning);
-        stateMachine.AddAnyTransition(idle, isIdle);
-        stateMachine.SetState(idle);
-    }
+			Func<bool> isAirbourne = () => !IsOnFloor();
+			Func<bool> isRunning = () => InputDirection.x != 0.0f;
+			Func<bool> isIdle = () => InputDirection == Vector2.Zero;
+			_stateMachine.AddAnyTransition(airbourne, isAirbourne);
+			_stateMachine.AddAnyTransition(running, isRunning);
+			_stateMachine.AddAnyTransition(idle, isIdle);
+			_stateMachine.SetState(idle);
+		}
 
-    public override void _Process(float delta) {
-        stateMachine.Process(delta);
-    }
+		public override void _Process(float delta) {
+			_stateMachine.Process(delta);
+		}
 
-    public override void _PhysicsProcess(float delta) {
-        stateMachine.PhysicsProcess(delta);
-    }
+		public override void _PhysicsProcess(float delta) {
+			_stateMachine.PhysicsProcess(delta);
+		}
 
-    public override void _UnhandledInput(InputEvent _event) {
-        GetInputDirection();
-        if (Input.IsActionJustPressed("attack")) {
-            GD.Print("Attacking");
-            animationTree.Set("parameters/OneShot/active", true);
-            action = Action.Attacking;
-        }
-        stateMachine.UnhandledInput(_event);
-    }
-    public void GetInputDirection() {
-        inputDirection = new Vector2(
-            Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
-            Input.GetActionStrength("jump")
-        );
-    }
+		public override void _UnhandledInput(InputEvent _event) {
+			GetInputDirection();
+			if (Input.IsActionJustPressed("attack")) {
+				GD.Print("Attacking");
+				AnimationTree.Set("parameters/OneShot/active", true);
+				Action = Action.Attacking;
+			}
+			_stateMachine.UnhandledInput(_event);
+		}
+		public void GetInputDirection() {
+			InputDirection = new Vector2(
+				Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
+				Input.GetActionStrength("jump")
+			);
+		}
 
-    public void actionHasEnded() {
-        action = Action.None;
-    }
+		public void actionHasEnded() {
+			Action = Action.None;
+		}
+	}
 }
