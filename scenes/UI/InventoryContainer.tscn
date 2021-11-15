@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/UI/InventoryDisplay.tscn" type="PackedScene" id=1]
+
+[node name="InventoryContainer" type="ColorRect"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -32.0
+margin_right = -40.0
+margin_bottom = -14.0
+color = Color( 0.243137, 0.219608, 0.219608, 0.72549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InventoryDisplay" parent="." instance=ExtResource( 1 )]

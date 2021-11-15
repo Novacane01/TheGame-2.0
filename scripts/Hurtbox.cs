@@ -18,5 +18,3 @@ public class Hurtbox : Area2D {
 		health.Current -= hitbox.damage * damageModifier;
 	}
 }
-
-
