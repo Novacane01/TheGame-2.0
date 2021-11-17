@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/Sensors/HurtBox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/World/Tree.png" type="Texture" id=3]
 [ext_resource path="res://shaders/flash.gdshader" type="Shader" id=4]
-[ext_resource path="res://scripts/Health.cs" type="Script" id=5]
+[ext_resource path="res://scripts/Stats/Health.cs" type="Script" id=5]
 [ext_resource path="res://scenes/Sensors/FlashTimer.tscn" type="PackedScene" id=6]
 
 [sub_resource type="ShaderMaterial" id=3]
@@ -36,12 +36,10 @@ shape = SubResource( 2 )
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource( 5 )
-MAX_HEALTH = 50.0
 
 [node name="FlashTimer" parent="." instance=ExtResource( 6 )]
 spritePath = NodePath("../Sprite")
 
-[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
-[connection signal="area_entered" from="HurtBox" to="HurtBox" method="_on_HurtBox_area_entered"]
+[connection signal="area_entered" from="HurtBox" to="." method="_onHurtBoxAreaEntered"]
 
 [editable path="HurtBox"]
