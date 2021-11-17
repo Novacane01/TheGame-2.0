@@ -7,13 +7,13 @@ public class Health : Node {
     [Signal]
     public delegate void NoHealth();
 
-    private double health;
+    protected double health;
 
     public override void _Ready() {
         health = MAX_HEALTH;
     }
 
-    public double Current {
+    public virtual double Current {
         get { return health; }
         set {
             health = value;
@@ -24,7 +24,7 @@ public class Health : Node {
         }
     }
 
-    private void EmitNoHealthSignal() {
+    protected void EmitNoHealthSignal() {
         EmitSignal("NoHealth");
     }
 }

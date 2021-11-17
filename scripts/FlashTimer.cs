@@ -8,9 +8,9 @@ public class FlashTimer : Timer {
 	private float flashModifier = 1.0f;
 
 	public override void _Ready() {
+
 		// This node assumes that the sprite node contains the material with the "flash" shader
-		material = GetNode<Sprite>(spritePath).Material as ShaderMaterial;
-		GD.Print(material.GetShaderParam("flash_modifier"));
+		material = GetNode<Node2D>(spritePath).Material as ShaderMaterial;
 		flashModifier = (float)material.GetShaderParam("flash_modifier");
 
 		// removes flash effect to begin

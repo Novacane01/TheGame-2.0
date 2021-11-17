@@ -36,6 +36,8 @@ namespace Player {
 
 		private StateMachine _stateMachine;
 
+		private FlashTimer _flashTimer;
+
 		public override void _Ready() {
 			AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 			AnimationTree = GetNode<AnimationTree>("AnimationTree");
@@ -53,6 +55,11 @@ namespace Player {
 			_stateMachine.AddAnyTransition(running, isRunning);
 			_stateMachine.AddAnyTransition(idle, isIdle);
 			_stateMachine.SetState(idle);
+
+			_flashTimer = GetNode<FlashTimer>("FlashTimer");
+
+			// allows Player to know when its health is depleted
+			GetNode<Node>("Health").Connect("NoHealth", this, nameof(_onNoHealth));
 		}
 
 		public override void _Process(float delta) {
@@ -81,6 +88,14 @@ namespace Player {
 
 		public void actionHasEnded() {
 			Action = Action.None;
+		}
+
+		public void _onHurtBoxAreaEntered(Hitbox hitbox) {
+			_flashTimer.flash();
+		}
+
+		private void _onNoHealth() {
+			QueueFree();
 		}
 	}
 }
