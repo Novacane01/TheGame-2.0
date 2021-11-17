@@ -1,6 +1,6 @@
 using Godot;
 
-public class Tree : StaticBody2D {
+public class Destroyable : StaticBody2D {
 	private FlashTimer flashTimer;
 
 	public override void _Ready() {
